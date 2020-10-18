@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
 public class TomoController : MonoBehaviour
 {
@@ -6,16 +8,22 @@ public class TomoController : MonoBehaviour
 
     [SerializeField]
     public GameObject TomoViewObject;
-    
+
+    public Button RightButtonObject;
+    public Button LeftButtonObject;
+
+    public float WaitDuration = 1f;
 
     // Start is called before the first frame update
     void Start()
-    {    }
+    {
+        StartCoroutine(RunStarting());
+    }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void TurnLeft()
@@ -42,5 +50,24 @@ public class TomoController : MonoBehaviour
         }
 
         TomoViewObject.transform.GetChild(direction).gameObject.SetActive(true);
+    }
+
+    IEnumerator RunStarting()
+    {
+        int index = 0; 
+        
+        RightButtonObject.interactable = false;
+        LeftButtonObject.interactable = false;
+
+        while(index < 4)
+        {
+            index++;
+            yield return new WaitForSeconds(WaitDuration);
+            TurnRight();
+        }
+
+        RightButtonObject.interactable = true;
+        LeftButtonObject.interactable = true;
+
     }
 }
